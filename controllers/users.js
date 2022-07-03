@@ -6,7 +6,7 @@ const getUsers = (req, res) => {
   }).catch(() => res.status(500).send({ message: 'Ошибка по умолчанию.' }));
 };
 
-const getUsersId = (req, res) => {
+const getUserById = (req, res) => {
   User.findOne({ _id: req.params.userId }).then((user) => {
     if (!user) {
       res.status(404).send({ message: 'Пользователь с указанным _id не найден.' });
@@ -15,7 +15,7 @@ const getUsersId = (req, res) => {
     res.status(200).send(user);
   }).catch((err) => {
     if (err.name === 'CastError') {
-      res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+      res.status(400).send({ message: 'Переданы некорректные данные при получении профиля по _id.' });
     } else {
       res.status(500).send({ message: 'Ошибка по умолчанию.' });
     }
@@ -28,9 +28,9 @@ const createUser = (req, res) => {
     res.status(201).send(user);
   }).catch((err) => {
     if (err.name === 'ValidationError') {
-      res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+      res.status(400).send({ message: 'Переданы некорректные данные при создании профиля.' });
     } else {
-      res.status(500).send({ message: 'Ошибка по умолчанию. Минимальная длина поля — 2 символа, а максимальная — 30 символов' });
+      res.status(500).send({ message: 'Ошибка по умолчанию.' });
     }
   });
 };
@@ -48,7 +48,7 @@ const updateUser = (req, res) => {
     } res.status(200).send(user);
   }).catch((err) => {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
-      res.status(400).send({ message: ' Переданы некорректные данные при обновлении аватара. Минимальная длина аватара — 2 символа, а максимальная — 30 символов' });
+      res.status(400).send({ message: 'Переданы некорректные данные' })
     } else {
       res.status(500).send({ message: 'Ошибка по умолчанию.' });
     }
@@ -60,7 +60,7 @@ const updateAvatar = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true },
+    { new: true, runValidators: true},
   ).then((user) => {
     if (!user) {
       res.status(404).send({ message: 'Пользователь с указанным _id не найден.' });
@@ -69,7 +69,7 @@ const updateAvatar = (req, res) => {
     res.status(200).send(user);
   }).catch((err) => {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
-      res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара. Минимальная длина аватара — 2 символа, а максимальная — 30 символов' });
+      res.status(400).send({ message: 'Переданы некорректные данные' });
     } else {
       res.status(500).send({ message: 'Ошибка по умолчанию' });
     }
@@ -78,7 +78,7 @@ const updateAvatar = (req, res) => {
 
 module.exports = {
   getUsers,
-  getUsersId,
+  getUserById,
   createUser,
   updateUser,
   updateAvatar
