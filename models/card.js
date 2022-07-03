@@ -15,11 +15,13 @@ const cardSchema = new mongoose.Schema({
     ref: 'user',
     required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
   },
-  likes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
-    default: [],
-  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
+  ],
   createdAt: {
    type: Date,
    default: Date.now
