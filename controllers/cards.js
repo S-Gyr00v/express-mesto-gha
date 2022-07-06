@@ -101,7 +101,7 @@ const unLikeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         res
-          .status(NOT_FOUND)
+          .status(BAD_REQUEST)
           .send({
             message:
               'Переданы некорректные данные для постановки/снятии лайка.',
