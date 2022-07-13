@@ -14,4 +14,3 @@ router.patch('/me', updateUser);
 router.patch('/me/avatar', updateAvatar);
 router.get('/me', getUser);
 module.exports = router;
-
