@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { celebrate, Joi } = require('celebrate');
+const { errors, celebrate, Joi } = require('celebrate');
 const { regex } = require('./utils/constants');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -35,6 +35,7 @@ app.use('/cards', userAuthorization, cardsRouter);
 app.use((req, res, next) => {
   next(new NotFoundError('Обращение к несуществующей странице'));
 });
+app.use(errors());
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
