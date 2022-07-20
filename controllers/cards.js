@@ -1,4 +1,4 @@
-const ForbiddenError = require('../errors/registredError');
+const ForbiddenError = require('../errors/forbiddenError');
 const NotFoundError = require('../errors/notFoundError');
 const BadReqError = require('../errors/badReqError');
 
